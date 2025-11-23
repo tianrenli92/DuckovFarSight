@@ -4,26 +4,25 @@ namespace FarSight;
 
 public class ModBehaviour : Duckov.Modding.ModBehaviour
 {
-    private FOVManager? _fovManager;
-
     private void Awake()
     {
-        Debug.Log("FarSight Loaded!!!");
-        _fovManager = new FOVManager();
+        Debug.Log("FarSight is loaded");
     }
 
     protected override void OnAfterSetup()
     {
+        Debug.Log("FarSight is set up");
         ModSettingManager.OnAfterSetup(info);
     }
 
     private void Update()
     {
-        _fovManager!.Update();
+        FOVManager.Update();
     }
 
     private void OnDisable()
     {
+        Debug.Log("FarSight is disabled");
         ModSettingManager.OnDisable();
     }
 }

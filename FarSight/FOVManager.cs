@@ -2,10 +2,10 @@
 
 namespace FarSight;
 
-public class FOVManager
+public static class FOVManager
 {
+    public const float BaseDefaultFOV = 23.5f;
     private const float ZoomSpeed = 10f;
-    internal const float BaseDefaultFOV = 23.5f;
     private const float AdsFOVDiff = -0.7f;
     private const float MinDefaultFOV = 1f;
 
@@ -13,7 +13,7 @@ public class FOVManager
 
     private static float DeltaFOV => ZoomSpeed * Time.deltaTime;
 
-    public void Update()
+    public static void Update()
     {
         if (!Camera) return;
 

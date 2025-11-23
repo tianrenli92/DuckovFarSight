@@ -17,7 +17,7 @@ public static class ModSettingManager
     private static ModInfo _modInfo;
     private static SettingsBuilder? _settingsBuilder;
 
-    internal static void OnAfterSetup(ModInfo modInfo)
+    public static void OnAfterSetup(ModInfo modInfo)
     {
         InitLanguagePack();
         _modInfo = modInfo;
@@ -25,21 +25,26 @@ public static class ModSettingManager
         InitSetting(_settingsBuilder);
         AddUI(_settingsBuilder, LocalizationManager.CurrentLanguage);
         LocalizationManager.OnSetLanguage += LocalizationManager_OnSetLanguage;
+        Setting.OnFovChange += Setting_OnFovChange;
     }
 
-    internal static void OnDisable()
+    public static void OnDisable()
     {
+        LanguagePack.Clear();
         LocalizationManager.OnSetLanguage -= LocalizationManager_OnSetLanguage;
+        Setting.OnFovChange -= Setting_OnFovChange;
     }
 
-    internal static void SetUiFov(float fov)
+
+    private static void LocalizationManager_OnSetLanguage(SystemLanguage systemLanguage)
     {
-        ModSetting.ModBehaviour.SetValue(_modInfo, KeyFov, fov);
-    }
-
-    private static void LocalizationManager_OnSetLanguage(SystemLanguage systemLanguage) {
         ModSetting.ModBehaviour.RemoveMod(_modInfo);
         AddUI(_settingsBuilder!, systemLanguage);
+    }
+
+    private static void Setting_OnFovChange(float fov)
+    {
+        ModSetting.ModBehaviour.SetValue(_modInfo, KeyFov, fov);
     }
 
     private static void InitLanguagePack()
@@ -71,12 +76,12 @@ public static class ModSettingManager
     {
         if (settingsBuilder.HasConfig())
         {
-            Setting.ZoomOut = settingsBuilder.GetSavedValue("ZoomOut", out KeyCode zoomOut) ? zoomOut : KeyCode.PageUp;
-            Setting.ZoomIn = settingsBuilder.GetSavedValue("ZoomIn", out KeyCode zoomIn) ? zoomIn : KeyCode.PageDown;
-            Setting.ZoomReset = settingsBuilder.GetSavedValue("ZoomReset", out KeyCode zoomReset)
+            Setting.ZoomOut = settingsBuilder.GetSavedValue(KeyZoomOut, out KeyCode zoomOut) ? zoomOut : KeyCode.PageUp;
+            Setting.ZoomIn = settingsBuilder.GetSavedValue(KeyZoomIn, out KeyCode zoomIn) ? zoomIn : KeyCode.PageDown;
+            Setting.ZoomReset = settingsBuilder.GetSavedValue(KeyZoomReset, out KeyCode zoomReset)
                 ? zoomReset
                 : KeyCode.Home;
-            Setting.Fov = settingsBuilder.GetSavedValue("FOV", out float fov) ? fov : FOVManager.BaseDefaultFOV;
+            Setting.Fov = settingsBuilder.GetSavedValue(KeyFov, out float fov) ? fov : FOVManager.BaseDefaultFOV;
         }
         else
         {

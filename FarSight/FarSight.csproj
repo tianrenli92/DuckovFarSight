@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <ProjectGuid>{C60D63C6-8411-4C08-AC59-49F3E9791568}</ProjectGuid>
+        <Nullable>enable</Nullable>
+        <LangVersion>10</LangVersion>
+        <DuckovPath>C:\Program Files (x86)\Steam\steamapps\common\Escape from Duckov</DuckovPath>
+        <DuckovModPath>$(DuckovPath)\Duckov_Data\Mods\FarSight</DuckovModPath>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="$(DuckovPath)\Duckov_Data\Managed\TeamSoda.*" />
+        <Reference Include="$(DuckovPath)\Duckov_Data\Managed\ItemStatsSystem.dll" />
+        <Reference Include="$(DuckovPath)\Duckov_Data\Managed\Unity*" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Properties\" />
+    </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(DuckovModPath)" />
+        <Copy SourceFiles="info.ini" DestinationFolder="$(DuckovModPath)" />
+        <!-- Do not copy preview.png, since it is too large to upload -->
+    </Target>
+</Project>

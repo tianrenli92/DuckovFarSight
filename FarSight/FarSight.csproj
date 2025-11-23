@@ -6,10 +6,14 @@
         <LangVersion>10</LangVersion>
         <DuckovPath>C:\Program Files (x86)\Steam\steamapps\common\Escape from Duckov</DuckovPath>
         <DuckovModPath>$(DuckovPath)\Duckov_Data\Mods\FarSight</DuckovModPath>
+        <DuckovWorkshopModPath>C:\Program Files (x86)\Steam\steamapps\workshop\content\3167020</DuckovWorkshopModPath>
+        <DuckovModSettingPath>$(DuckovWorkshopModPath)\3595729494</DuckovModSettingPath>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="$(DuckovPath)\Duckov_Data\Managed\TeamSoda.*" />
+        <Reference Include="$(DuckovModSettingPath)\*" />
         <Reference Include="$(DuckovPath)\Duckov_Data\Managed\ItemStatsSystem.dll" />
+        <Reference Include="$(DuckovPath)\Duckov_Data\Managed\SodaLocalization.dll" />
+        <Reference Include="$(DuckovPath)\Duckov_Data\Managed\TeamSoda.*" />
         <Reference Include="$(DuckovPath)\Duckov_Data\Managed\Unity*" />
     </ItemGroup>
     <ItemGroup>

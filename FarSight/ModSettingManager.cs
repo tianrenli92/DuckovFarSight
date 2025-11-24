@@ -71,6 +71,14 @@ public static class ModSettingManager
             { KeyFov, "视野" },
             { KeyNpcFovMultiplier, "NPC 视野倍率 (加载新场景后生效)" },
         });
+        LanguagePack.Add(SystemLanguage.ChineseTraditional, new Dictionary<string, string>
+        {
+            { KeyZoomOut, "拉遠" },
+            { KeyZoomIn, "拉近" },
+            { KeyZoomReset, "重置" },
+            { KeyFov, "視野" },
+            { KeyNpcFovMultiplier, "NPC 視野倍率 (加載新場景後生效)" },
+        });
         LanguagePack.Add(SystemLanguage.Russian, new Dictionary<string, string>
         {
             { KeyZoomOut, "Отдалить" },

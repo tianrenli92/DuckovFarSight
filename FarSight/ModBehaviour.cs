@@ -6,13 +6,14 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 {
     private void Awake()
     {
-        Debug.Log("FarSight is loaded");
+        DebugUtils.Log("FarSight is loaded");
     }
 
     protected override void OnAfterSetup()
     {
-        Debug.Log("FarSight is set up");
+        DebugUtils.Log("FarSight is set up");
         ModSettingManager.OnAfterSetup(info);
+        NpcFovManager.OnAfterSetup();
     }
 
     private void Update()
@@ -22,7 +23,8 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 
     private void OnDisable()
     {
-        Debug.Log("FarSight is disabled");
+        DebugUtils.Log("FarSight is disabled");
         ModSettingManager.OnDisable();
+        NpcFovManager.OnDisable();
     }
 }

@@ -17,7 +17,7 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
 
     private void Update()
     {
-        FOVManager.Update();
+        FovManager.Update();
     }
 
     private void OnDisable()

@@ -3,7 +3,7 @@
         <TargetFramework>netstandard2.1</TargetFramework>
         <ProjectGuid>{C60D63C6-8411-4C08-AC59-49F3E9791568}</ProjectGuid>
         <Nullable>enable</Nullable>
-        <LangVersion>10</LangVersion>
+        <LangVersion>latest</LangVersion>
         <DuckovPath>C:\Program Files (x86)\Steam\steamapps\common\Escape from Duckov</DuckovPath>
         <DuckovModPath>$(DuckovPath)\Duckov_Data\Mods\FarSight</DuckovModPath>
         <DuckovWorkshopModPath>C:\Program Files (x86)\Steam\steamapps\workshop\content\3167020</DuckovWorkshopModPath>

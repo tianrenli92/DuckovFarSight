@@ -2,16 +2,16 @@
 
 namespace FarSight;
 
-public static class FOVManager
+public static class FovManager
 {
-    public const float BaseDefaultFOV = 23.5f;
+    public const float BaseDefaultFov = 23.5f;
     private const float ZoomSpeed = 10f;
-    private const float AdsFOVDiff = -0.7f;
-    private const float MinDefaultFOV = 1f;
+    private const float AdsFovDiff = -0.7f;
+    private const float MinDefaultFov = 1f;
 
     private static GameCamera Camera => GameCamera.Instance;
 
-    private static float DeltaFOV => ZoomSpeed * Time.deltaTime;
+    private static float DeltaFov => ZoomSpeed * Time.deltaTime;
 
     public static void Update()
     {
@@ -23,30 +23,30 @@ public static class FOVManager
         // Zoom out
         if (Input.GetKey(Setting.ZoomOut))
         {
-            currentFov += DeltaFOV;
+            currentFov += DeltaFov;
             changed = true;
         }
         // Zoom in
         if (Input.GetKey(Setting.ZoomIn))
         {
-            currentFov -= DeltaFOV;
+            currentFov -= DeltaFov;
             changed = true;
         }
         // Reset
         if (Input.GetKey(Setting.ZoomReset))
         {
-            currentFov = BaseDefaultFOV;
+            currentFov = BaseDefaultFov;
             changed = true;
         }
         
         if (changed)
         {
-            currentFov = Mathf.Max(currentFov, MinDefaultFOV);
+            currentFov = Mathf.Max(currentFov, MinDefaultFov);
             Setting.SetFov(currentFov);
         }
 
         // Apply FOV
         Camera.defaultFOV = Setting.Fov;
-        Camera.adsFOV = Setting.Fov + AdsFOVDiff;
+        Camera.adsFOV = Setting.Fov + AdsFovDiff;
     }
 }

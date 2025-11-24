@@ -81,7 +81,7 @@ public static class ModSettingManager
             Setting.ZoomReset = settingsBuilder.GetSavedValue(KeyZoomReset, out KeyCode zoomReset)
                 ? zoomReset
                 : KeyCode.Home;
-            Setting.Fov = settingsBuilder.GetSavedValue(KeyFov, out float fov) ? fov : FOVManager.BaseDefaultFOV;
+            Setting.Fov = settingsBuilder.GetSavedValue(KeyFov, out float fov) ? fov : FovManager.BaseDefaultFov;
         }
         else
         {
@@ -89,7 +89,7 @@ public static class ModSettingManager
             Setting.ZoomIn = KeyCode.PageDown;
             Setting.ZoomOut = KeyCode.PageUp;
             Setting.ZoomReset = KeyCode.Home;
-            Setting.Fov = FOVManager.BaseDefaultFOV;
+            Setting.Fov = FovManager.BaseDefaultFov;
         }
     }
 

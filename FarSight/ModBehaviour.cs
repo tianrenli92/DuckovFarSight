@@ -13,6 +13,7 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
     {
         DebugUtils.Log("FarSight is set up");
         ModSettingManager.OnAfterSetup(info);
+        FovManager.OnAfterSetup();
         NpcFovManager.OnAfterSetup();
     }
 

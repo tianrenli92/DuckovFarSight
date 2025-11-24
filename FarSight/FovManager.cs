@@ -67,12 +67,11 @@ public static class FovManager
         Camera.defaultFOV = Setting.Fov;
         Camera.adsFOV = Setting.Fov + AdsFovDiff;
         // Adjust recoil based on FOV
-        _fovRecoilModifier?.Value = Setting.Fov / BaseDefaultFov - 1f;
+        _fovRecoilModifier!.Value = Setting.Fov / BaseDefaultFov - 1f;
     }
 
     private static void ApplyFovRecoilModifier(SceneLoadingContext sceneLoadingContext)
     {
-        // Adjust recoil
         var recoil = CharacterMainControl.Main?.CharacterItem?.GetStat(RecoilControlHash);
         if (recoil == null)
         {

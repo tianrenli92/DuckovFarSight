@@ -26,6 +26,7 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
     {
         DebugUtils.Log("FarSight is disabled");
         ModSettingManager.OnDisable();
+        FovManager.OnDisable();
         NpcFovManager.OnDisable();
     }
 }

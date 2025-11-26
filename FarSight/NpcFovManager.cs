@@ -8,7 +8,7 @@ public static class NpcFovManager
     private static readonly Dictionary<int, float> DefaultCharacterPresetSightDistances = [];
     private static readonly Dictionary<int, float> DefaultAiControllerSightDistances = [];
 
-    public static void OnAfterSetup()
+    public static void OnEnable()
     {
         SceneLoader.onFinishedLoadingScene += AdjustNpcFov;
     }

@@ -14,11 +14,6 @@ public static class ModSettingManager
     private const string KeyFov = "Fov";
     private const string KeyNpcFovMultiplier = "NpcFovMultiplier";
 
-    private const KeyCode DefaultZoomOut = KeyCode.PageUp;
-    private const KeyCode DefaultZoomIn = KeyCode.PageDown;
-    private const KeyCode DefaultZoomReset = KeyCode.Home;
-    private const float DefaultNpcFovMultiplier = 1.5f;
-
     private static readonly Dictionary<SystemLanguage, Dictionary<string, string>> LanguagePack = new();
     private static ModInfo _modInfo;
     private static SettingsBuilder? _settingsBuilder;
@@ -45,7 +40,7 @@ public static class ModSettingManager
     private static void LocalizationManager_OnSetLanguage(SystemLanguage systemLanguage)
     {
         ModSetting.ModBehaviour.RemoveMod(_modInfo);
-        AddUI(_settingsBuilder!, systemLanguage);
+        AddUI(_settingsBuilder, systemLanguage);
     }
 
     private static void Setting_OnFovChange(float fov)
@@ -91,38 +86,29 @@ public static class ModSettingManager
 
     private static void InitSetting(SettingsBuilder settingsBuilder)
     {
-        if (settingsBuilder.HasConfig())
-        {
-            Setting.ZoomOut = settingsBuilder.GetSavedValue(KeyZoomOut, out KeyCode zoomOut) ? zoomOut : DefaultZoomOut;
-            Setting.ZoomIn = settingsBuilder.GetSavedValue(KeyZoomIn, out KeyCode zoomIn) ? zoomIn : DefaultZoomIn;
-            Setting.ZoomReset = settingsBuilder.GetSavedValue(KeyZoomReset, out KeyCode zoomReset)
-                ? zoomReset
-                : DefaultZoomReset;
-            Setting.Fov = settingsBuilder.GetSavedValue(KeyFov, out float fov) ? fov : FovManager.BaseDefaultFov;
-            Setting.NpcFovMultiplier = settingsBuilder.GetSavedValue(KeyNpcFovMultiplier, out float npcFovMultiplier)
-                ? npcFovMultiplier
-                : DefaultNpcFovMultiplier;
-        }
-        else
-        {
-            // Set default values
-            Setting.ZoomIn = DefaultZoomIn;
-            Setting.ZoomOut = DefaultZoomOut;
-            Setting.ZoomReset = DefaultZoomReset;
-            Setting.Fov = FovManager.BaseDefaultFov;
-            Setting.NpcFovMultiplier = DefaultNpcFovMultiplier;
-        }
+        Setting.ModSettingLoaded = true;
+        if (!settingsBuilder.HasConfig()) return;
+        Setting.ZoomOut = settingsBuilder.GetSavedValue(KeyZoomOut, out KeyCode zoomOut) ? zoomOut : Setting.DefaultZoomOut;
+        Setting.ZoomIn = settingsBuilder.GetSavedValue(KeyZoomIn, out KeyCode zoomIn) ? zoomIn : Setting.DefaultZoomIn;
+        Setting.ZoomReset = settingsBuilder.GetSavedValue(KeyZoomReset, out KeyCode zoomReset)
+            ? zoomReset
+            : Setting.DefaultZoomReset;
+        Setting.Fov = settingsBuilder.GetSavedValue(KeyFov, out float fov) ? fov : Setting.DefaultFov;
+        Setting.NpcFovMultiplier = settingsBuilder.GetSavedValue(KeyNpcFovMultiplier, out float npcFovMultiplier)
+            ? npcFovMultiplier
+            : Setting.DefaultNpcFovMultiplier;
     }
 
-    private static void AddUI(SettingsBuilder settingsBuilder, SystemLanguage language)
+    private static void AddUI(SettingsBuilder? settingsBuilder, SystemLanguage language)
     {
+        if (settingsBuilder is null) return;
         if (!LanguagePack.TryGetValue(language, out var dictionary))
             dictionary = LanguagePack[SystemLanguage.English];
 
         settingsBuilder
-            .AddKeybinding(KeyZoomOut, dictionary[KeyZoomOut], Setting.ZoomOut, DefaultZoomOut, Setting.SetZoomOut)
-            .AddKeybinding(KeyZoomIn, dictionary[KeyZoomIn], Setting.ZoomIn, DefaultZoomIn, Setting.SetZoomIn)
-            .AddKeybinding(KeyZoomReset, dictionary[KeyZoomReset], Setting.ZoomReset, DefaultZoomReset,
+            .AddKeybinding(KeyZoomOut, dictionary[KeyZoomOut], Setting.ZoomOut, Setting.DefaultZoomOut, Setting.SetZoomOut)
+            .AddKeybinding(KeyZoomIn, dictionary[KeyZoomIn], Setting.ZoomIn, Setting.DefaultZoomIn, Setting.SetZoomIn)
+            .AddKeybinding(KeyZoomReset, dictionary[KeyZoomReset], Setting.ZoomReset, Setting.DefaultZoomReset,
                 Setting.SetZoomReset)
             .AddSlider(KeyFov, dictionary[KeyFov], Setting.Fov, new Vector2(1f, 100f), Setting.SetFov)
             .AddSlider(KeyNpcFovMultiplier, dictionary[KeyNpcFovMultiplier], Setting.NpcFovMultiplier,

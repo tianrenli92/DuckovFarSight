@@ -1,11 +1,11 @@
 ﻿using ItemStatsSystem.Stats;
+using SodaCraft.Localizations;
 using UnityEngine;
 
 namespace FarSight;
 
 public static class FovManager
 {
-    public const float BaseDefaultFov = 23.5f;
     private const float ZoomSpeed = 10f;
     private const float AdsFovDiff = -0.7f;
     private const float MinDefaultFov = 1f;
@@ -18,15 +18,17 @@ public static class FovManager
 
     private static Modifier? _fovRecoilModifier;
 
-    public static void OnAfterSetup()
+    public static void OnEnable()
     {
         _fovRecoilModifier = new Modifier(ModifierType.PercentageMultiply, 1, null);
         SceneLoader.onAfterSceneInitialize += ApplyFovRecoilModifier;
+        SceneLoader.onAfterSceneInitialize += ShowWarningIfModSettingIsNotLoaded;
     }
 
     public static void OnDisable()
     {
         SceneLoader.onAfterSceneInitialize -= ApplyFovRecoilModifier;
+        SceneLoader.onAfterSceneInitialize -= ShowWarningIfModSettingIsNotLoaded;
     }
 
     public static void Update()
@@ -53,7 +55,7 @@ public static class FovManager
         // Reset
         if (Input.GetKey(Setting.ZoomReset))
         {
-            currentFov = BaseDefaultFov;
+            currentFov = Setting.DefaultFov;
             changed = true;
         }
 
@@ -67,7 +69,7 @@ public static class FovManager
         Camera.defaultFOV = Setting.Fov;
         Camera.adsFOV = Setting.Fov + AdsFovDiff;
         // Adjust recoil based on FOV
-        _fovRecoilModifier!.Value = Setting.Fov / BaseDefaultFov - 1f;
+        _fovRecoilModifier!.Value = Setting.Fov / Setting.DefaultFov - 1f;
     }
 
     private static void ApplyFovRecoilModifier(SceneLoadingContext sceneLoadingContext)
@@ -82,5 +84,30 @@ public static class FovManager
         var oldRecoilValue = recoil.Value;
         recoil.AddModifier(_fovRecoilModifier);
         DebugUtils.Log($"Recoil changed from {oldRecoilValue} to {recoil.Value} after applying FOV recoil modifier");
+    }
+
+    private static void ShowWarningIfModSettingIsNotLoaded(SceneLoadingContext sceneLoadingContext)
+    {
+        if (Setting.ModSettingLoaded) return;
+        DebugUtils.Log("ModSetting is not loaded");
+        CharacterMainControl.Main?.PopText(GetModSettingIsNotLoadedWarningText());
+    }
+
+    private static string GetModSettingIsNotLoadedWarningText()
+    {
+        switch (LocalizationManager.CurrentLanguage)
+        {
+            case SystemLanguage.ChineseSimplified:
+                return "更远视距模组无法正常加载，请安装并加载ModSetting再启用更远视距！";
+            case SystemLanguage.ChineseTraditional:
+                return "更远视距模组無法正常加載，請安裝並加載ModSetting再啟用更遠視距！";
+            case SystemLanguage.Russian:
+                return
+                    "Мод Увеличенная дальность обзора не может быть загружен корректно. Пожалуйста, установите и загрузите ModSetting перед включением Увеличенная дальность обзора!";
+            case SystemLanguage.English:
+            default:
+                return
+                    "Far Sight mod cannot be loaded correctly. Please install and load ModSetting before enabling Far Sight!";
+        }
     }
 }

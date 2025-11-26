@@ -9,12 +9,17 @@ public class ModBehaviour : Duckov.Modding.ModBehaviour
         DebugUtils.Log("FarSight is loaded");
     }
 
+    private void OnEnable()
+    {
+        DebugUtils.Log("FarSight is enabled");
+        FovManager.OnEnable();
+        NpcFovManager.OnEnable();
+    }
+
     protected override void OnAfterSetup()
     {
         DebugUtils.Log("FarSight is set up");
         ModSettingManager.OnAfterSetup(info);
-        FovManager.OnAfterSetup();
-        NpcFovManager.OnAfterSetup();
     }
 
     private void Update()

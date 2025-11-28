@@ -59,6 +59,13 @@ public static class FovManager
             changed = true;
         }
 
+        // Quick Zoom Out
+        if (Input.GetKeyDown(Setting.QuickZoomOut))
+        {
+            currentFov += Setting.DefaultFov * 0.5f;
+            changed = true;
+        }
+
         if (changed)
         {
             currentFov = Mathf.Max(currentFov, MinDefaultFov);

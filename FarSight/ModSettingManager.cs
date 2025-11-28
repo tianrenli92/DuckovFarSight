@@ -11,6 +11,7 @@ public static class ModSettingManager
     private const string KeyZoomOut = "ZoomOut";
     private const string KeyZoomIn = "ZoomIn";
     private const string KeyZoomReset = "ZoomReset";
+    private const string KeyQuickZoomOut = "QuickZoomOut";
     private const string KeyFov = "Fov";
     private const string KeyNpcFovMultiplier = "NpcFovMultiplier";
 
@@ -55,6 +56,7 @@ public static class ModSettingManager
             { KeyZoomOut, "Zoom out" },
             { KeyZoomIn, "Zoom in" },
             { KeyZoomReset, "Zoom reset" },
+            { KeyQuickZoomOut, "Quick zoom out" },
             { KeyFov, "FOV" },
             { KeyNpcFovMultiplier, "NPC FOV Multiplier (Takes effect after loading a new scenario)" },
         });
@@ -63,6 +65,7 @@ public static class ModSettingManager
             { KeyZoomOut, "拉远" },
             { KeyZoomIn, "拉近" },
             { KeyZoomReset, "重置" },
+            { KeyQuickZoomOut, "快速拉远" },
             { KeyFov, "视野" },
             { KeyNpcFovMultiplier, "NPC 视野倍率 (加载新场景后生效)" },
         });
@@ -71,6 +74,7 @@ public static class ModSettingManager
             { KeyZoomOut, "拉遠" },
             { KeyZoomIn, "拉近" },
             { KeyZoomReset, "重置" },
+            { KeyQuickZoomOut, "快速拉遠" },
             { KeyFov, "視野" },
             { KeyNpcFovMultiplier, "NPC 視野倍率 (加載新場景後生效)" },
         });
@@ -79,6 +83,7 @@ public static class ModSettingManager
             { KeyZoomOut, "Отдалить" },
             { KeyZoomIn, "Приблизить" },
             { KeyZoomReset, "Сброс" },
+            { KeyQuickZoomOut, "Быстрое отдаление" },
             { KeyFov, "Угол обзора" },
             { KeyNpcFovMultiplier, "Множитель угла обзора NPC (Применяется после загрузки нового сценария)" },
         });
@@ -88,11 +93,16 @@ public static class ModSettingManager
     {
         Setting.ModSettingLoaded = true;
         if (!settingsBuilder.HasConfig()) return;
-        Setting.ZoomOut = settingsBuilder.GetSavedValue(KeyZoomOut, out KeyCode zoomOut) ? zoomOut : Setting.DefaultZoomOut;
+        Setting.ZoomOut = settingsBuilder.GetSavedValue(KeyZoomOut, out KeyCode zoomOut)
+            ? zoomOut
+            : Setting.DefaultZoomOut;
         Setting.ZoomIn = settingsBuilder.GetSavedValue(KeyZoomIn, out KeyCode zoomIn) ? zoomIn : Setting.DefaultZoomIn;
         Setting.ZoomReset = settingsBuilder.GetSavedValue(KeyZoomReset, out KeyCode zoomReset)
             ? zoomReset
             : Setting.DefaultZoomReset;
+        Setting.QuickZoomOut = settingsBuilder.GetSavedValue(KeyQuickZoomOut, out KeyCode quickZoomOut)
+            ? quickZoomOut
+            : Setting.DefaultQuickZoomOut;
         Setting.Fov = settingsBuilder.GetSavedValue(KeyFov, out float fov) ? fov : Setting.DefaultFov;
         Setting.NpcFovMultiplier = settingsBuilder.GetSavedValue(KeyNpcFovMultiplier, out float npcFovMultiplier)
             ? npcFovMultiplier
@@ -106,10 +116,13 @@ public static class ModSettingManager
             dictionary = LanguagePack[SystemLanguage.English];
 
         settingsBuilder
-            .AddKeybinding(KeyZoomOut, dictionary[KeyZoomOut], Setting.ZoomOut, Setting.DefaultZoomOut, Setting.SetZoomOut)
+            .AddKeybinding(KeyZoomOut, dictionary[KeyZoomOut], Setting.ZoomOut, Setting.DefaultZoomOut,
+                Setting.SetZoomOut)
             .AddKeybinding(KeyZoomIn, dictionary[KeyZoomIn], Setting.ZoomIn, Setting.DefaultZoomIn, Setting.SetZoomIn)
             .AddKeybinding(KeyZoomReset, dictionary[KeyZoomReset], Setting.ZoomReset, Setting.DefaultZoomReset,
                 Setting.SetZoomReset)
+            .AddKeybinding(KeyQuickZoomOut, dictionary[KeyQuickZoomOut], Setting.QuickZoomOut, Setting.DefaultQuickZoomOut,
+                Setting.SetQuickZoomOut)
             .AddSlider(KeyFov, dictionary[KeyFov], Setting.Fov, new Vector2(1f, 100f), Setting.SetFov)
             .AddSlider(KeyNpcFovMultiplier, dictionary[KeyNpcFovMultiplier], Setting.NpcFovMultiplier,
                 new Vector2(1f, 2f), Setting.SetNpcFovMultiplier);

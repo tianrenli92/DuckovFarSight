@@ -12,6 +12,8 @@ public static class ModSettingManager
     private const string KeyZoomIn = "ZoomIn";
     private const string KeyZoomReset = "ZoomReset";
     private const string KeyQuickZoomOut = "QuickZoomOut";
+    private const string KeyApplyFavoriteFov = "ApplyFavoriteFov";
+    private const string KeyFavoriteFov = "FavoriteFov";
     private const string KeyFov = "Fov";
     private const string KeyNpcFovMultiplier = "NpcFovMultiplier";
 
@@ -57,7 +59,9 @@ public static class ModSettingManager
             { KeyZoomIn, "Zoom in" },
             { KeyZoomReset, "Zoom reset" },
             { KeyQuickZoomOut, "Quick zoom out" },
+            { KeyApplyFavoriteFov, "Apply favorite FOV" },
             { KeyFov, "FOV" },
+            { KeyFavoriteFov, "Favorite FOV" },
             { KeyNpcFovMultiplier, "NPC FOV Multiplier (Takes effect after loading a new scenario)" },
         });
         LanguagePack.Add(SystemLanguage.ChineseSimplified, new Dictionary<string, string>
@@ -66,7 +70,9 @@ public static class ModSettingManager
             { KeyZoomIn, "拉近" },
             { KeyZoomReset, "重置" },
             { KeyQuickZoomOut, "快速拉远" },
+            { KeyApplyFavoriteFov, "应用常用视野" },
             { KeyFov, "视野" },
+            { KeyFavoriteFov, "常用视野" },
             { KeyNpcFovMultiplier, "NPC 视野倍率 (加载新场景后生效)" },
         });
         LanguagePack.Add(SystemLanguage.ChineseTraditional, new Dictionary<string, string>
@@ -75,7 +81,9 @@ public static class ModSettingManager
             { KeyZoomIn, "拉近" },
             { KeyZoomReset, "重置" },
             { KeyQuickZoomOut, "快速拉遠" },
+            { KeyApplyFavoriteFov, "應用常用視野" },
             { KeyFov, "視野" },
+            { KeyFavoriteFov, "常用視野" },
             { KeyNpcFovMultiplier, "NPC 視野倍率 (加載新場景後生效)" },
         });
         LanguagePack.Add(SystemLanguage.Russian, new Dictionary<string, string>
@@ -84,7 +92,9 @@ public static class ModSettingManager
             { KeyZoomIn, "Приблизить" },
             { KeyZoomReset, "Сброс" },
             { KeyQuickZoomOut, "Быстрое отдаление" },
+            { KeyApplyFavoriteFov, "Применить любимый угол обзора" },
             { KeyFov, "Угол обзора" },
+            { KeyFavoriteFov, "Любимый угол обзора" },
             { KeyNpcFovMultiplier, "Множитель угла обзора NPC (Применяется после загрузки нового сценария)" },
         });
     }
@@ -103,7 +113,13 @@ public static class ModSettingManager
         Setting.QuickZoomOut = settingsBuilder.GetSavedValue(KeyQuickZoomOut, out KeyCode quickZoomOut)
             ? quickZoomOut
             : Setting.DefaultQuickZoomOut;
+        Setting.ApplyFavoriteFov = settingsBuilder.GetSavedValue(KeyApplyFavoriteFov, out KeyCode applyFavoriteFov)
+            ? applyFavoriteFov
+            : Setting.DefaultApplyFavoriteFov;
         Setting.Fov = settingsBuilder.GetSavedValue(KeyFov, out float fov) ? fov : Setting.DefaultFov;
+        Setting.FavoriteFov = settingsBuilder.GetSavedValue(KeyFavoriteFov, out float favoriteFov)
+            ? favoriteFov
+            : Setting.DefaultFavoriteFov;
         Setting.NpcFovMultiplier = settingsBuilder.GetSavedValue(KeyNpcFovMultiplier, out float npcFovMultiplier)
             ? npcFovMultiplier
             : Setting.DefaultNpcFovMultiplier;
@@ -124,7 +140,10 @@ public static class ModSettingManager
             .AddKeybinding(KeyQuickZoomOut, dictionary[KeyQuickZoomOut], Setting.QuickZoomOut, Setting.DefaultQuickZoomOut,
                 Setting.SetQuickZoomOut)
             .AddSlider(KeyFov, dictionary[KeyFov], Setting.Fov, new Vector2(1f, 100f), Setting.SetFov)
+            .AddSlider(KeyFavoriteFov, dictionary[KeyFavoriteFov], Setting.FavoriteFov, new Vector2(1f, 100f), Setting.SetFavoriteFov)
+            .AddKeybinding(KeyApplyFavoriteFov, dictionary[KeyApplyFavoriteFov], Setting.ApplyFavoriteFov,
+                Setting.DefaultApplyFavoriteFov, Setting.SetApplyFavoriteFov)
             .AddSlider(KeyNpcFovMultiplier, dictionary[KeyNpcFovMultiplier], Setting.NpcFovMultiplier,
                 new Vector2(1f, 2f), Setting.SetNpcFovMultiplier);
+        }
     }
-}

@@ -66,6 +66,13 @@ public static class FovManager
             changed = true;
         }
 
+        // Favorite
+        if (Input.GetKeyDown(Setting.ApplyFavoriteFov))
+        {
+            currentFov = Setting.FavoriteFov;
+            changed = true;
+        }
+
         if (changed)
         {
             currentFov = Mathf.Max(currentFov, MinDefaultFov);
@@ -107,7 +114,7 @@ public static class FovManager
             case SystemLanguage.ChineseSimplified:
                 return "更远视距模组无法正常加载，请安装并加载ModSetting再启用更远视距！";
             case SystemLanguage.ChineseTraditional:
-                return "更远视距模组無法正常加載，請安裝並加載ModSetting再啟用更遠視距！";
+                return "更远视距模組無法正常加載，請安裝並加載ModSetting再啟用更遠視距！";
             case SystemLanguage.Russian:
                 return
                     "Мод Увеличенная дальность обзора не может быть загружен корректно. Пожалуйста, установите и загрузите ModSetting перед включением Увеличенная дальность обзора!";

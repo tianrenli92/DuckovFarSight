@@ -66,10 +66,17 @@ public static class FovManager
             changed = true;
         }
 
-        // Favorite
+        // Favorite FOV
         if (Input.GetKeyDown(Setting.ApplyFavoriteFov))
         {
             currentFov = Setting.FavoriteFov;
+            changed = true;
+        }
+
+        // Second Favorite FOV
+        if (Input.GetKeyDown(Setting.ApplySecondFavoriteFov))
+        {
+            currentFov = Setting.SecondFavoriteFov;
             changed = true;
         }
 
